@@ -193,7 +193,7 @@ function showCheckoutModal() {
     const checkoutModal = document.getElementById('checkout-modal');
     checkoutModal.classList.add('show');
   });
-      
+
   document.getElementById('close-checkout-btn').addEventListener('click', () => {
     const checkoutModal = document.getElementById('checkout-modal');
     checkoutModal.classList.remove('show');
@@ -212,7 +212,7 @@ function showCheckoutModal() {
   // tracking number
   const trackingNo = 'EV' +
     Date.now().toString().slice(-6) +
-    Math.floor(Math.random() * 1000).toString().padStart(3,'0');
+    Math.floor(Math.random() * 1000).toString().padStart(3, '0');
   document.getElementById('checkout-tracking-no').textContent = trackingNo;
 
   document.getElementById('close-checkout-btn').onclick = () => {
@@ -223,11 +223,24 @@ function showCheckoutModal() {
   const form = document.getElementById('checkout-form');
   form.onsubmit = e => {
     e.preventDefault();
+
     alert(
       `Thank you, ${form['cust-name'].value}!\n` +
       `Your order (₱${grandTotal.toFixed(2)}) has been placed.\n` +
       `Tracking No: ${trackingNo}`
     );
+
+    // 🔽 STORE tracking info for later tracking
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    orders.push({
+      trackingNo: trackingNo,
+      name: form['cust-name'].value,
+      total: grandTotal.toFixed(2),
+      status: 'In Progress',
+      timestamp: new Date().toISOString()
+    });
+    localStorage.setItem('orders', JSON.stringify(orders));
+
     checkoutModal.style.display = 'none';
   };
 }
