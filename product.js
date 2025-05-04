@@ -230,7 +230,7 @@ function showCheckoutModal() {
       `Tracking No: ${trackingNo}`
     );
 
-    // 🔽 STORE tracking info for later tracking
+    // STORE tracking 
     const orders = JSON.parse(localStorage.getItem('orders')) || [];
     orders.push({
       trackingNo: trackingNo,
