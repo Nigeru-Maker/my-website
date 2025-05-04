@@ -221,26 +221,28 @@ function showCheckoutModal() {
 
   // form submit
   const form = document.getElementById('checkout-form');
-  form.onsubmit = e => {
-    e.preventDefault();
+ form.onsubmit = e => {
+  e.preventDefault();
 
-    alert(
-      `Thank you, ${form['cust-name'].value}!\n` +
-      `Your order (₱${grandTotal.toFixed(2)}) has been placed.\n` +
-      `Tracking No: ${trackingNo}`
-    );
+  alert(
+    `Thank you, ${form['cust-name'].value}!\n` +
+    `Your order (₱${grandTotal.toFixed(2)}) has been placed.\n` +
+    `Tracking No: ${trackingNo}`
+  );
 
-    // STORE tracking 
-    const orders = JSON.parse(localStorage.getItem('orders')) || [];
-    orders.push({
-      trackingNo: trackingNo,
-      name: form['cust-name'].value,
-      total: grandTotal.toFixed(2),
-      status: 'In Progress',
-      timestamp: new Date().toISOString()
-    });
-    localStorage.setItem('orders', JSON.stringify(orders));
+  // STORE tracking 
+  const orders = JSON.parse(localStorage.getItem('orders')) || [];
+  orders.push({
+    trackingNo: trackingNo,
+    name: form['cust-name'].value,
+    total: grandTotal.toFixed(2),
+    status: 'In Progress',
+    timestamp: new Date().toISOString()
+  });
+  localStorage.setItem('orders', JSON.stringify(orders));
 
-    checkoutModal.style.display = 'none';
-  };
-}
+  checkoutModal.style.display = 'none';
+
+  // Redirect to tracking
+  window.location.href = `https://nigeru-maker.github.io/About-/?trackingNo=${trackingNo}`;
+};
